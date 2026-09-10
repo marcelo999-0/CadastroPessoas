@@ -28,68 +28,67 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            textBox5 = new TextBox();
-            textBox14 = new TextBox();
-            textBox15 = new TextBox();
+            txtNome = new TextBox();
+            txtEmail = new TextBox();
             lblNome2 = new Label();
-            txtDataNasc = new Label();
-            txtNumero = new Label();
-            txtDDD = new Label();
-            txtEmail = new Label();
-            txtCPF = new Label();
-            txtRua = new Label();
-            txtNumeroCasa = new Label();
-            txtTipo = new Label();
-            txtCEP = new Label();
-            txtUF = new Label();
-            txtBairro = new Label();
-            maskedTextBox2 = new MaskedTextBox();
-            mskCPF = new MaskedTextBox();
-            maskedTextBox1 = new MaskedTextBox();
-            maskedTextBox4 = new MaskedTextBox();
-            comboBox1 = new ComboBox();
+            lblDataNasc = new Label();
+            lblEmail = new Label();
+            lblCPF = new Label();
+            txtCPF = new MaskedTextBox();
             btnSalvar = new Button();
             btnCancelar = new Button();
-            maskedTextBox5 = new MaskedTextBox();
-            maskedTextBox6 = new MaskedTextBox();
-            comboBox2 = new ComboBox();
-            txtNome = new Label();
-            textBox2 = new TextBox();
-            lblRua = new Label();
-            txtLogradouro = new Label();
-            textBox3 = new TextBox();
-            txtCidade = new Label();
+            lblNumeroCasa = new Label();
+            sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
+            DataNascimento = new MaskedTextBox();
+            dgvEnderecos = new DataGridView();
+            dgvTelefones = new DataGridView();
+            gbEndereco = new GroupBox();
+            listEndereco = new ListBox();
+            cbUf = new ComboBox();
+            txtComplemento = new TextBox();
+            txtNumeroCasa = new MaskedTextBox();
+            txtCep = new MaskedTextBox();
+            txtLogradouro = new TextBox();
+            txtCidade = new TextBox();
+            txtBairro = new TextBox();
+            lblCep = new Label();
+            lblUf = new Label();
+            lblComplemento = new Label();
+            lblCidade = new Label();
+            lblBairro = new Label();
+            Logradouro = new Label();
+            gbTelefones = new GroupBox();
+            listTelefone = new ListBox();
+            comboBox1 = new ComboBox();
+            maskedTextBox2 = new MaskedTextBox();
+            maskedTextBox1 = new MaskedTextBox();
+            lblDDD = new Label();
+            lblTipo = new Label();
+            lblNumeroTelefone = new Label();
+            btnRemover = new Button();
+            btnAdicionar = new Button();
+            lblNome = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvEnderecos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTelefones).BeginInit();
+            gbEndereco.SuspendLayout();
+            gbTelefones.SuspendLayout();
             SuspendLayout();
             // 
-            // textBox1
+            // txtNome
             // 
-            textBox1.Location = new Point(55, 51);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(223, 23);
-            textBox1.TabIndex = 0;
+            txtNome.Location = new Point(12, 26);
+            txtNome.Name = "txtNome";
+            txtNome.Size = new Size(291, 23);
+            txtNome.TabIndex = 1;
+            txtNome.TextChanged += textBox1_TextChanged;
             // 
-            // textBox5
+            // txtEmail
             // 
-            textBox5.BackColor = SystemColors.Window;
-            textBox5.Location = new Point(55, 132);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(223, 23);
-            textBox5.TabIndex = 1;
-            // 
-            // textBox14
-            // 
-            textBox14.Location = new Point(57, 252);
-            textBox14.Name = "textBox14";
-            textBox14.Size = new Size(213, 23);
-            textBox14.TabIndex = 1;
-            // 
-            // textBox15
-            // 
-            textBox15.Location = new Point(55, 305);
-            textBox15.Name = "textBox15";
-            textBox15.Size = new Size(215, 23);
-            textBox15.TabIndex = 1;
+            txtEmail.BackColor = SystemColors.Window;
+            txtEmail.Location = new Point(15, 91);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(288, 23);
+            txtEmail.TabIndex = 3;
             // 
             // lblNome2
             // 
@@ -98,361 +97,476 @@
             lblNome2.Size = new Size(100, 23);
             lblNome2.TabIndex = 8;
             // 
-            // txtDataNasc
+            // lblDataNasc
             // 
-            txtDataNasc.AutoSize = true;
-            txtDataNasc.Font = new Font("Trebuchet MS", 10F);
-            txtDataNasc.ForeColor = Color.MidnightBlue;
-            txtDataNasc.Location = new Point(287, 30);
-            txtDataNasc.Name = "txtDataNasc";
-            txtDataNasc.Size = new Size(135, 18);
-            txtDataNasc.TabIndex = 2;
-            txtDataNasc.Text = "Data de Nascimento";
+            lblDataNasc.AutoSize = true;
+            lblDataNasc.Font = new Font("Trebuchet MS", 10F);
+            lblDataNasc.ForeColor = Color.MidnightBlue;
+            lblDataNasc.Location = new Point(358, 5);
+            lblDataNasc.Name = "lblDataNasc";
+            lblDataNasc.Size = new Size(135, 18);
+            lblDataNasc.TabIndex = 4;
+            lblDataNasc.Text = "Data de Nascimento";
             // 
-            // txtNumero
+            // lblEmail
             // 
-            txtNumero.AutoSize = true;
-            txtNumero.Font = new Font("Trebuchet MS", 10F);
-            txtNumero.ForeColor = Color.MidnightBlue;
-            txtNumero.Location = new Point(551, 30);
-            txtNumero.Name = "txtNumero";
-            txtNumero.Size = new Size(135, 18);
-            txtNumero.TabIndex = 2;
-            txtNumero.Text = "Número de Telefone";
+            lblEmail.AutoSize = true;
+            lblEmail.Font = new Font("Trebuchet MS", 10F);
+            lblEmail.ForeColor = Color.MidnightBlue;
+            lblEmail.Location = new Point(15, 70);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(41, 18);
+            lblEmail.TabIndex = 2;
+            lblEmail.Text = "Email";
             // 
-            // txtDDD
+            // lblCPF
             // 
-            txtDDD.AutoSize = true;
-            txtDDD.Font = new Font("Trebuchet MS", 10F);
-            txtDDD.ForeColor = Color.MidnightBlue;
-            txtDDD.Location = new Point(519, 30);
-            txtDDD.Name = "txtDDD";
-            txtDDD.Size = new Size(35, 18);
-            txtDDD.TabIndex = 2;
-            txtDDD.Text = "DDD";
-            // 
-            // txtEmail
-            // 
-            txtEmail.AutoSize = true;
-            txtEmail.Font = new Font("Trebuchet MS", 10F);
-            txtEmail.ForeColor = Color.MidnightBlue;
-            txtEmail.Location = new Point(59, 111);
-            txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(41, 18);
-            txtEmail.TabIndex = 2;
-            txtEmail.Text = "Email";
+            lblCPF.AutoSize = true;
+            lblCPF.Font = new Font("Trebuchet MS", 10F);
+            lblCPF.ForeColor = Color.MidnightBlue;
+            lblCPF.Location = new Point(358, 70);
+            lblCPF.Name = "lblCPF";
+            lblCPF.Size = new Size(31, 18);
+            lblCPF.TabIndex = 6;
+            lblCPF.Text = "CPF";
             // 
             // txtCPF
             // 
-            txtCPF.AutoSize = true;
-            txtCPF.Font = new Font("Trebuchet MS", 10F);
-            txtCPF.ForeColor = Color.MidnightBlue;
-            txtCPF.Location = new Point(287, 111);
+            txtCPF.Location = new Point(358, 91);
+            txtCPF.Mask = "000,000,000-00";
             txtCPF.Name = "txtCPF";
-            txtCPF.Size = new Size(31, 18);
-            txtCPF.TabIndex = 2;
-            txtCPF.Text = "CPF";
-            // 
-            // txtRua
-            // 
-            txtRua.AutoSize = true;
-            txtRua.Font = new Font("Trebuchet MS", 10F);
-            txtRua.ForeColor = Color.MidnightBlue;
-            txtRua.Location = new Point(55, 231);
-            txtRua.Name = "txtRua";
-            txtRua.Size = new Size(31, 18);
-            txtRua.TabIndex = 2;
-            txtRua.Text = "Rua";
-            // 
-            // txtNumeroCasa
-            // 
-            txtNumeroCasa.AutoSize = true;
-            txtNumeroCasa.Font = new Font("Trebuchet MS", 10F);
-            txtNumeroCasa.ForeColor = Color.MidnightBlue;
-            txtNumeroCasa.Location = new Point(276, 231);
-            txtNumeroCasa.Name = "txtNumeroCasa";
-            txtNumeroCasa.Size = new Size(27, 18);
-            txtNumeroCasa.TabIndex = 2;
-            txtNumeroCasa.Text = "N.º";
-            // 
-            // txtTipo
-            // 
-            txtTipo.AutoSize = true;
-            txtTipo.Font = new Font("Trebuchet MS", 10F);
-            txtTipo.ForeColor = Color.MidnightBlue;
-            txtTipo.Location = new Point(519, 111);
-            txtTipo.Name = "txtTipo";
-            txtTipo.Size = new Size(35, 18);
-            txtTipo.TabIndex = 2;
-            txtTipo.Text = "Tipo";
-            // 
-            // txtCEP
-            // 
-            txtCEP.AutoSize = true;
-            txtCEP.Font = new Font("Trebuchet MS", 10F);
-            txtCEP.ForeColor = Color.MidnightBlue;
-            txtCEP.Location = new Point(54, 340);
-            txtCEP.Name = "txtCEP";
-            txtCEP.Size = new Size(32, 18);
-            txtCEP.TabIndex = 2;
-            txtCEP.Text = "CEP";
-            // 
-            // txtUF
-            // 
-            txtUF.AutoSize = true;
-            txtUF.Font = new Font("Trebuchet MS", 10F);
-            txtUF.ForeColor = Color.MidnightBlue;
-            txtUF.Location = new Point(551, 231);
-            txtUF.Name = "txtUF";
-            txtUF.Size = new Size(24, 18);
-            txtUF.TabIndex = 2;
-            txtUF.Text = "UF";
-            // 
-            // txtBairro
-            // 
-            txtBairro.AutoSize = true;
-            txtBairro.Font = new Font("Trebuchet MS", 10F);
-            txtBairro.ForeColor = Color.MidnightBlue;
-            txtBairro.Location = new Point(55, 284);
-            txtBairro.Name = "txtBairro";
-            txtBairro.Size = new Size(45, 18);
-            txtBairro.TabIndex = 2;
-            txtBairro.Text = "Bairro";
-            txtBairro.Click += label12_Click;
-            // 
-            // maskedTextBox2
-            // 
-            maskedTextBox2.Location = new Point(287, 51);
-            maskedTextBox2.Mask = "00/00/0000";
-            maskedTextBox2.Name = "maskedTextBox2";
-            maskedTextBox2.Size = new Size(100, 23);
-            maskedTextBox2.TabIndex = 4;
-            maskedTextBox2.ValidatingType = typeof(DateTime);
-            maskedTextBox2.MaskInputRejected += maskedTextBox2_MaskInputRejected;
-            // 
-            // mskCPF
-            // 
-            mskCPF.Location = new Point(287, 132);
-            mskCPF.Mask = "000,000,000-00";
-            mskCPF.Name = "mskCPF";
-            mskCPF.Size = new Size(100, 23);
-            mskCPF.TabIndex = 4;
-            mskCPF.ValidatingType = typeof(DateTime);
-            // 
-            // maskedTextBox1
-            // 
-            maskedTextBox1.Location = new Point(551, 51);
-            maskedTextBox1.Mask = "00000-0000";
-            maskedTextBox1.Name = "maskedTextBox1";
-            maskedTextBox1.Size = new Size(116, 23);
-            maskedTextBox1.TabIndex = 4;
-            maskedTextBox1.ValidatingType = typeof(DateTime);
-            // 
-            // maskedTextBox4
-            // 
-            maskedTextBox4.Location = new Point(276, 252);
-            maskedTextBox4.Mask = "000";
-            maskedTextBox4.Name = "maskedTextBox4";
-            maskedTextBox4.Size = new Size(24, 23);
-            maskedTextBox4.TabIndex = 4;
-            maskedTextBox4.ValidatingType = typeof(DateTime);
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Fixo", "Celular" });
-            comboBox1.Location = new Point(522, 132);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(148, 23);
-            comboBox1.TabIndex = 5;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            txtCPF.Size = new Size(100, 23);
+            txtCPF.TabIndex = 7;
+            txtCPF.ValidatingType = typeof(DateTime);
             // 
             // btnSalvar
             // 
-            btnSalvar.Location = new Point(213, 415);
+            btnSalvar.Location = new Point(15, 516);
             btnSalvar.Name = "btnSalvar";
             btnSalvar.Size = new Size(90, 30);
-            btnSalvar.TabIndex = 6;
+            btnSalvar.TabIndex = 26;
             btnSalvar.Text = "Salvar";
             btnSalvar.UseVisualStyleBackColor = true;
             btnSalvar.Click += btnSalvar_Click_1;
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(523, 415);
+            btnCancelar.Location = new Point(150, 516);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(90, 30);
-            btnCancelar.TabIndex = 7;
+            btnCancelar.TabIndex = 27;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             // 
-            // maskedTextBox5
+            // lblNumeroCasa
             // 
-            maskedTextBox5.Location = new Point(519, 51);
-            maskedTextBox5.Mask = "00";
-            maskedTextBox5.Name = "maskedTextBox5";
-            maskedTextBox5.Size = new Size(26, 23);
-            maskedTextBox5.TabIndex = 4;
-            maskedTextBox5.ValidatingType = typeof(DateTime);
+            lblNumeroCasa.AutoSize = true;
+            lblNumeroCasa.Font = new Font("Trebuchet MS", 10F);
+            lblNumeroCasa.ForeColor = Color.MidnightBlue;
+            lblNumeroCasa.Location = new Point(172, 18);
+            lblNumeroCasa.Name = "lblNumeroCasa";
+            lblNumeroCasa.Size = new Size(17, 18);
+            lblNumeroCasa.TabIndex = 0;
+            lblNumeroCasa.Text = "N";
+            lblNumeroCasa.Click += lblNumeroCasa_Click;
             // 
-            // maskedTextBox6
+            // sqliteCommand1
             // 
-            maskedTextBox6.Location = new Point(57, 361);
-            maskedTextBox6.Mask = "00000-000";
-            maskedTextBox6.Name = "maskedTextBox6";
-            maskedTextBox6.Size = new Size(116, 23);
-            maskedTextBox6.TabIndex = 4;
-            maskedTextBox6.ValidatingType = typeof(DateTime);
+            sqliteCommand1.CommandTimeout = 30;
+            sqliteCommand1.Connection = null;
+            sqliteCommand1.Transaction = null;
+            sqliteCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
             // 
-            // comboBox2
+            // DataNascimento
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" });
-            comboBox2.Location = new Point(551, 252);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(119, 23);
-            comboBox2.TabIndex = 5;
-            comboBox2.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            DataNascimento.Location = new Point(358, 26);
+            DataNascimento.Mask = "00/00/0000";
+            DataNascimento.Name = "DataNascimento";
+            DataNascimento.Size = new Size(100, 23);
+            DataNascimento.TabIndex = 5;
             // 
-            // txtNome
+            // dgvEnderecos
             // 
-            txtNome.AutoSize = true;
-            txtNome.Font = new Font("Trebuchet MS", 10F);
-            txtNome.ForeColor = Color.MidnightBlue;
-            txtNome.Location = new Point(55, 30);
-            txtNome.Name = "txtNome";
-            txtNome.Size = new Size(44, 18);
-            txtNome.TabIndex = 2;
-            txtNome.Text = "Nome";
+            dgvEnderecos.BackgroundColor = Color.LightSteelBlue;
+            dgvEnderecos.BorderStyle = BorderStyle.None;
+            dgvEnderecos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvEnderecos.Location = new Point(15, 136);
+            dgvEnderecos.Name = "dgvEnderecos";
+            dgvEnderecos.Size = new Size(702, 182);
+            dgvEnderecos.TabIndex = 28;
+            dgvEnderecos.CellContentClick += dgvEnderecos_CellContentClick;
             // 
-            // textBox2
+            // dgvTelefones
             // 
-            textBox2.Location = new Point(320, 308);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(213, 23);
-            textBox2.TabIndex = 1;
+            dgvTelefones.BackgroundColor = Color.LightSteelBlue;
+            dgvTelefones.BorderStyle = BorderStyle.None;
+            dgvTelefones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTelefones.Location = new Point(15, 324);
+            dgvTelefones.Name = "dgvTelefones";
+            dgvTelefones.Size = new Size(702, 186);
+            dgvTelefones.TabIndex = 29;
+            dgvTelefones.CellContentClick += dgvTelefones_CellContentClick;
             // 
-            // lblRua
+            // gbEndereco
             // 
-            lblRua.AutoSize = true;
-            lblRua.Font = new Font("Trebuchet MS", 10F);
-            lblRua.ForeColor = Color.MidnightBlue;
-            lblRua.Location = new Point(55, 231);
-            lblRua.Name = "lblRua";
-            lblRua.Size = new Size(31, 18);
-            lblRua.TabIndex = 2;
-            lblRua.Text = "Rua";
+            gbEndereco.BackColor = Color.LightSteelBlue;
+            gbEndereco.Controls.Add(listEndereco);
+            gbEndereco.Controls.Add(cbUf);
+            gbEndereco.Controls.Add(txtComplemento);
+            gbEndereco.Controls.Add(txtNumeroCasa);
+            gbEndereco.Controls.Add(txtCep);
+            gbEndereco.Controls.Add(txtLogradouro);
+            gbEndereco.Controls.Add(txtCidade);
+            gbEndereco.Controls.Add(txtBairro);
+            gbEndereco.Controls.Add(lblCep);
+            gbEndereco.Controls.Add(lblUf);
+            gbEndereco.Controls.Add(lblComplemento);
+            gbEndereco.Controls.Add(lblCidade);
+            gbEndereco.Controls.Add(lblBairro);
+            gbEndereco.Controls.Add(Logradouro);
+            gbEndereco.Controls.Add(lblNumeroCasa);
+            gbEndereco.Location = new Point(15, 136);
+            gbEndereco.Name = "gbEndereco";
+            gbEndereco.Size = new Size(702, 182);
+            gbEndereco.TabIndex = 30;
+            gbEndereco.TabStop = false;
+            gbEndereco.Text = "Endereços";
+            // 
+            // listEndereco
+            // 
+            listEndereco.FormattingEnabled = true;
+            listEndereco.Location = new Point(498, 18);
+            listEndereco.Name = "listEndereco";
+            listEndereco.Size = new Size(198, 154);
+            listEndereco.TabIndex = 9;
+            listEndereco.SelectedIndexChanged += listEndereco_SelectedIndexChanged;
+            // 
+            // cbUf
+            // 
+            cbUf.FormattingEnabled = true;
+            cbUf.Location = new Point(259, 86);
+            cbUf.Name = "cbUf";
+            cbUf.Size = new Size(121, 23);
+            cbUf.TabIndex = 8;
+            // 
+            // txtComplemento
+            // 
+            txtComplemento.BackColor = SystemColors.Window;
+            txtComplemento.Location = new Point(259, 131);
+            txtComplemento.Name = "txtComplemento";
+            txtComplemento.Size = new Size(162, 23);
+            txtComplemento.TabIndex = 3;
+            // 
+            // txtNumeroCasa
+            // 
+            txtNumeroCasa.Location = new Point(172, 39);
+            txtNumeroCasa.Mask = "000";
+            txtNumeroCasa.Name = "txtNumeroCasa";
+            txtNumeroCasa.Size = new Size(24, 23);
+            txtNumeroCasa.TabIndex = 7;
+            txtNumeroCasa.ValidatingType = typeof(DateTime);
+            // 
+            // txtCep
+            // 
+            txtCep.Location = new Point(259, 39);
+            txtCep.Mask = "00000-000";
+            txtCep.Name = "txtCep";
+            txtCep.Size = new Size(81, 23);
+            txtCep.TabIndex = 7;
+            txtCep.ValidatingType = typeof(DateTime);
             // 
             // txtLogradouro
             // 
-            txtLogradouro.AutoSize = true;
-            txtLogradouro.Font = new Font("Trebuchet MS", 10F);
-            txtLogradouro.ForeColor = Color.MidnightBlue;
-            txtLogradouro.Location = new Point(320, 287);
+            txtLogradouro.BackColor = SystemColors.Window;
+            txtLogradouro.Location = new Point(6, 39);
             txtLogradouro.Name = "txtLogradouro";
-            txtLogradouro.Size = new Size(79, 18);
-            txtLogradouro.TabIndex = 2;
-            txtLogradouro.Text = "Logradouro";
-            txtLogradouro.Click += txtLogradouro_Click;
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(320, 252);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(213, 23);
-            textBox3.TabIndex = 1;
+            txtLogradouro.Size = new Size(162, 23);
+            txtLogradouro.TabIndex = 3;
             // 
             // txtCidade
             // 
-            txtCidade.AutoSize = true;
-            txtCidade.Font = new Font("Trebuchet MS", 10F);
-            txtCidade.ForeColor = Color.MidnightBlue;
-            txtCidade.Location = new Point(320, 231);
+            txtCidade.BackColor = SystemColors.Window;
+            txtCidade.Location = new Point(6, 131);
             txtCidade.Name = "txtCidade";
-            txtCidade.Size = new Size(51, 18);
-            txtCidade.TabIndex = 2;
-            txtCidade.Text = "Cidade";
+            txtCidade.Size = new Size(162, 23);
+            txtCidade.TabIndex = 3;
+            // 
+            // txtBairro
+            // 
+            txtBairro.BackColor = SystemColors.Window;
+            txtBairro.Location = new Point(6, 84);
+            txtBairro.Name = "txtBairro";
+            txtBairro.Size = new Size(162, 23);
+            txtBairro.TabIndex = 3;
+            // 
+            // lblCep
+            // 
+            lblCep.AutoSize = true;
+            lblCep.Font = new Font("Trebuchet MS", 10F);
+            lblCep.ForeColor = Color.MidnightBlue;
+            lblCep.Location = new Point(259, 19);
+            lblCep.Name = "lblCep";
+            lblCep.Size = new Size(32, 18);
+            lblCep.TabIndex = 0;
+            lblCep.Text = "Cep";
+            // 
+            // lblUf
+            // 
+            lblUf.AutoSize = true;
+            lblUf.Font = new Font("Trebuchet MS", 10F);
+            lblUf.ForeColor = Color.MidnightBlue;
+            lblUf.Location = new Point(259, 65);
+            lblUf.Name = "lblUf";
+            lblUf.Size = new Size(24, 18);
+            lblUf.TabIndex = 0;
+            lblUf.Text = "UF";
+            // 
+            // lblComplemento
+            // 
+            lblComplemento.AutoSize = true;
+            lblComplemento.Font = new Font("Trebuchet MS", 10F);
+            lblComplemento.ForeColor = Color.MidnightBlue;
+            lblComplemento.Location = new Point(259, 110);
+            lblComplemento.Name = "lblComplemento";
+            lblComplemento.Size = new Size(95, 18);
+            lblComplemento.TabIndex = 0;
+            lblComplemento.Text = "Complemento";
+            // 
+            // lblCidade
+            // 
+            lblCidade.AutoSize = true;
+            lblCidade.Font = new Font("Trebuchet MS", 10F);
+            lblCidade.ForeColor = Color.MidnightBlue;
+            lblCidade.Location = new Point(6, 110);
+            lblCidade.Name = "lblCidade";
+            lblCidade.Size = new Size(51, 18);
+            lblCidade.TabIndex = 0;
+            lblCidade.Text = "Cidade";
+            // 
+            // lblBairro
+            // 
+            lblBairro.AutoSize = true;
+            lblBairro.Font = new Font("Trebuchet MS", 10F);
+            lblBairro.ForeColor = Color.MidnightBlue;
+            lblBairro.Location = new Point(6, 63);
+            lblBairro.Name = "lblBairro";
+            lblBairro.Size = new Size(45, 18);
+            lblBairro.TabIndex = 0;
+            lblBairro.Text = "Bairro";
+            // 
+            // Logradouro
+            // 
+            Logradouro.AutoSize = true;
+            Logradouro.Font = new Font("Trebuchet MS", 10F);
+            Logradouro.ForeColor = Color.MidnightBlue;
+            Logradouro.Location = new Point(6, 18);
+            Logradouro.Name = "Logradouro";
+            Logradouro.Size = new Size(79, 18);
+            Logradouro.TabIndex = 0;
+            Logradouro.Text = "Logradouro";
+            Logradouro.Click += lblNumeroCasa_Click;
+            // 
+            // gbTelefones
+            // 
+            gbTelefones.Controls.Add(listTelefone);
+            gbTelefones.Controls.Add(comboBox1);
+            gbTelefones.Controls.Add(maskedTextBox2);
+            gbTelefones.Controls.Add(maskedTextBox1);
+            gbTelefones.Controls.Add(lblDDD);
+            gbTelefones.Controls.Add(lblTipo);
+            gbTelefones.Controls.Add(lblNumeroTelefone);
+            gbTelefones.Location = new Point(15, 324);
+            gbTelefones.Name = "gbTelefones";
+            gbTelefones.Size = new Size(702, 186);
+            gbTelefones.TabIndex = 31;
+            gbTelefones.TabStop = false;
+            gbTelefones.Text = "Telefones";
+            // 
+            // listTelefone
+            // 
+            listTelefone.FormattingEnabled = true;
+            listTelefone.Location = new Point(498, 12);
+            listTelefone.Name = "listTelefone";
+            listTelefone.Size = new Size(198, 169);
+            listTelefone.TabIndex = 9;
+            listTelefone.SelectedIndexChanged += listTelefone_SelectedIndexChanged;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(6, 94);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(121, 23);
+            comboBox1.TabIndex = 8;
+            // 
+            // maskedTextBox2
+            // 
+            maskedTextBox2.Location = new Point(6, 45);
+            maskedTextBox2.Mask = "___";
+            maskedTextBox2.Name = "maskedTextBox2";
+            maskedTextBox2.Size = new Size(28, 23);
+            maskedTextBox2.TabIndex = 7;
+            maskedTextBox2.ValidatingType = typeof(DateTime);
+            // 
+            // maskedTextBox1
+            // 
+            maskedTextBox1.Location = new Point(46, 45);
+            maskedTextBox1.Mask = "00000-0000";
+            maskedTextBox1.Name = "maskedTextBox1";
+            maskedTextBox1.Size = new Size(81, 23);
+            maskedTextBox1.TabIndex = 7;
+            maskedTextBox1.ValidatingType = typeof(DateTime);
+            // 
+            // lblDDD
+            // 
+            lblDDD.AutoSize = true;
+            lblDDD.Font = new Font("Trebuchet MS", 10F);
+            lblDDD.ForeColor = Color.MidnightBlue;
+            lblDDD.Location = new Point(6, 24);
+            lblDDD.Name = "lblDDD";
+            lblDDD.Size = new Size(35, 18);
+            lblDDD.TabIndex = 0;
+            lblDDD.Text = "DDD";
+            // 
+            // lblTipo
+            // 
+            lblTipo.AutoSize = true;
+            lblTipo.Font = new Font("Trebuchet MS", 10F);
+            lblTipo.ForeColor = Color.MidnightBlue;
+            lblTipo.Location = new Point(6, 73);
+            lblTipo.Name = "lblTipo";
+            lblTipo.Size = new Size(35, 18);
+            lblTipo.TabIndex = 0;
+            lblTipo.Text = "Tipo";
+            lblTipo.Click += lblNumeroCasa_Click;
+            // 
+            // lblNumeroTelefone
+            // 
+            lblNumeroTelefone.AutoSize = true;
+            lblNumeroTelefone.Font = new Font("Trebuchet MS", 10F);
+            lblNumeroTelefone.ForeColor = Color.MidnightBlue;
+            lblNumeroTelefone.Location = new Point(46, 24);
+            lblNumeroTelefone.Name = "lblNumeroTelefone";
+            lblNumeroTelefone.Size = new Size(57, 18);
+            lblNumeroTelefone.TabIndex = 0;
+            lblNumeroTelefone.Text = "Número";
+            lblNumeroTelefone.Click += lblNumeroCasa_Click;
+            // 
+            // btnRemover
+            // 
+            btnRemover.Location = new Point(598, 516);
+            btnRemover.Name = "btnRemover";
+            btnRemover.Size = new Size(96, 28);
+            btnRemover.TabIndex = 32;
+            btnRemover.Text = "Remover";
+            btnRemover.UseVisualStyleBackColor = true;
+            // 
+            // btnAdicionar
+            // 
+            btnAdicionar.Location = new Point(446, 516);
+            btnAdicionar.Name = "btnAdicionar";
+            btnAdicionar.Size = new Size(96, 28);
+            btnAdicionar.TabIndex = 32;
+            btnAdicionar.Text = "Adicionar";
+            btnAdicionar.UseVisualStyleBackColor = true;
+            btnAdicionar.Click += btnAdicionar_Click;
+            // 
+            // lblNome
+            // 
+            lblNome.AutoSize = true;
+            lblNome.Font = new Font("Trebuchet MS", 10F);
+            lblNome.ForeColor = Color.MidnightBlue;
+            lblNome.Location = new Point(12, 5);
+            lblNome.Name = "lblNome";
+            lblNome.Size = new Size(44, 18);
+            lblNome.TabIndex = 2;
+            lblNome.Text = "Nome";
             // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSteelBlue;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(729, 558);
+            Controls.Add(btnAdicionar);
+            Controls.Add(btnRemover);
+            Controls.Add(gbTelefones);
+            Controls.Add(txtCPF);
+            Controls.Add(gbEndereco);
+            Controls.Add(dgvTelefones);
+            Controls.Add(dgvEnderecos);
+            Controls.Add(DataNascimento);
             Controls.Add(btnCancelar);
             Controls.Add(btnSalvar);
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
-            Controls.Add(maskedTextBox5);
-            Controls.Add(maskedTextBox4);
-            Controls.Add(maskedTextBox6);
-            Controls.Add(maskedTextBox1);
-            Controls.Add(mskCPF);
-            Controls.Add(maskedTextBox2);
-            Controls.Add(txtBairro);
-            Controls.Add(txtUF);
-            Controls.Add(txtCEP);
-            Controls.Add(txtTipo);
-            Controls.Add(txtCidade);
-            Controls.Add(txtLogradouro);
-            Controls.Add(lblRua);
-            Controls.Add(txtNumeroCasa);
-            Controls.Add(txtRua);
-            Controls.Add(txtCPF);
-            Controls.Add(txtEmail);
-            Controls.Add(txtDDD);
-            Controls.Add(txtNumero);
-            Controls.Add(txtNome);
-            Controls.Add(txtDataNasc);
+            Controls.Add(lblCPF);
+            Controls.Add(lblNome);
+            Controls.Add(lblEmail);
+            Controls.Add(lblDataNasc);
             Controls.Add(lblNome2);
-            Controls.Add(textBox2);
-            Controls.Add(textBox15);
-            Controls.Add(textBox3);
-            Controls.Add(textBox14);
-            Controls.Add(textBox5);
-            Controls.Add(textBox1);
+            Controls.Add(txtEmail);
+            Controls.Add(txtNome);
             Name = "Form2";
             Text = "Form2";
             Load += Form2_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvEnderecos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTelefones).EndInit();
+            gbEndereco.ResumeLayout(false);
+            gbEndereco.PerformLayout();
+            gbTelefones.ResumeLayout(false);
+            gbTelefones.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private TextBox textBox1;
-        private TextBox textBox5;
+        private TextBox txtNome;
+        private TextBox txtEmail;
         private TextBox textBox9;
         private TextBox textBox10;
         private TextBox textBox14;
-        private TextBox textBox15;
         private Label lblNome2;
-        private Label txtDataNasc;
-        private Label txtNumero;
-        private Label txtDDD;
-        private Label txtEmail;
-        private Label txtCPF;
+        private Label lblDataNasc;
+        private Label lblEmail;
+        private Label lblCPF;
         private Label txtRua;
-        private Label txtNumeroCasa;
-        private Label txtTipo;
-        private Label txtCEP;
-        private Label txtUF;
-        private Label txtBairro;
-        private MaskedTextBox maskedTextBox2;
-        private MaskedTextBox mskCPF;
-        private MaskedTextBox maskedTextBox1;
-        private MaskedTextBox maskedTextBox4;
-        private ComboBox comboBox1;
+        private MaskedTextBox txtCPF;
         private Button btnSalvar;
         private Button btnCancelar;
-        private MaskedTextBox maskedTextBox5;
-        private MaskedTextBox maskedTextBox6;
-        private ComboBox comboBox2;
-        private Label txtNome;
-        private TextBox textBox2;
-        private Label lblRua;
-        private Label txtLogradouro;
+        private Label lblNumeroCasa;
+        private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
+        private MaskedTextBox DataNascimento;
+        private DataGridView dgvEnderecos;
+        private DataGridView dgvTelefones;
+        private GroupBox gbEndereco;
+        private GroupBox gbTelefones;
+        private Button btnRemover;
+        private Button btnAdicionar;
+        private TextBox txtBairro;
+        private TextBox txtLogradouro;
+        private TextBox txtCidade;
         private TextBox textBox3;
-        private Label txtCidade;
+        private TextBox textBox1;
+        private TextBox txtComplemento;
+        private TextBox textBox6;
+        private TextBox textBox5;
+        private Label lblCep;
+        private Label lblUf;
+        private Label lblComplemento;
+        private Label lblCidade;
+        private Label lblBairro;
+        private ComboBox cbUf;
+        private MaskedTextBox txtCep;
+        private ComboBox comboBox1;
+        private MaskedTextBox maskedTextBox2;
+        private MaskedTextBox maskedTextBox1;
+        private ListBox listEndereco;
+        private ListBox listTelefone;
+        private MaskedTextBox txtNumeroCasa;
+        private Label Logradouro;
+        private Label lblDDD;
+        private Label lblTipo;
+        private Label lblNumeroTelefone;
+        private Label lblNome;
     }
 }

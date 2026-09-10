@@ -17,5 +17,7 @@ namespace CadastroPessoas.API.Models
         public string? UF { get; set; }
         public string? CEP { get; set; }
         public string? Cidade { get; set; }
+        public bool Principal { get; set; }
+    
     }
 }

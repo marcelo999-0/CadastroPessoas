@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CadastroPessoas.API.Controllers
 {
     [ApiController]
-    [Route("https://localhost:51524")]
+    [Route("api/[controller]")]
     public class PessoasController(PessoasCadastro pessoasCadastro) : ControllerBase
     {
         private readonly PessoasCadastro _pessoasCadastro = pessoasCadastro;
@@ -19,9 +19,9 @@ namespace CadastroPessoas.API.Controllers
                 return Ok(pessoa);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("Ocorreu um erro ao criar a pessoa.");
+                return BadRequest($"Ocorreu um erro ao criar a pessoa. {ex.Message}");
             }
         }
 
@@ -70,9 +70,10 @@ namespace CadastroPessoas.API.Controllers
                 var pessoas = _pessoasCadastro.ObterPessoas();
                 return Ok(pessoas);
             }
-            catch
+            catch (Exception ex) 
             {
-                return Ok(new List<Models.Pessoa>());
+                //return Ok(new List<Models.Pessoa>());
+                return StatusCode(500, "Ocorreu um erro ao obter as pessoas.");
 
             }
         }

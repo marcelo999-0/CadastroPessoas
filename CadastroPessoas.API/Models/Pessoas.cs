@@ -11,7 +11,7 @@ namespace CadastroPessoas.API.Models
         public string? CPF { get; set; }
         public DateTime DataNascimento { get; set; }
         public string? Email { get; set; }
-        public List<Telefone> Telefones { get; } = [];
-        public List<Endereco> Enderecos { get; } = [];
+        public List<Telefone> Telefones { get; set; } = [];
+        public List<Endereco> Enderecos { get; set; } = [];
     }
 }

@@ -20,6 +20,7 @@ namespace CadastroPessoas.API.Service
         private void OpenConnection()
         {
             _connection = new SqlConnection(_connectionString);
+            _connection.Open();
         }
 
         private void BeginTransaction()
@@ -79,12 +80,13 @@ namespace CadastroPessoas.API.Service
             catch
             {
                 Rollback();
+                throw;
             }
         }
 
         private void CriarTelefone(Telefone telefone, int pessoaId)
         {
-            const string query = @"INSERT INTO Pessoas (PessoaId, DDD, Numero, Tipo) 
+            const string query = @"INSERT INTO Telefones (PessoaId, DDD, Numero, Tipo) 
                                    VALUES (@pessoaId, @DDD, @NumeroCasa, @Tipo)";
             //using var connection = new SqlConnection(_connectionString);
             //using var command = new SqlCommand(query, connection);
@@ -102,8 +104,8 @@ namespace CadastroPessoas.API.Service
 
         private void CriarEndereco(Endereco endereco, int pessoaId)
         {
-            const string query = @"INSERT INTO Pessoas (Rua, NumeroCasa, Bairro, Logradouro, UF, CEP, Cidade) 
-                                   VALUES (@Rua, @NumeroCasa, @Bairro, @Logradouro, @UF, @CEP, @Cidade)";
+            const string query = @"INSERT INTO Enderecos (PessoaId, NumeroCasa, Bairro, Logradouro, UF, CEP, Cidade) 
+                                   VALUES (@PessoaId, @NumeroCasa, @Bairro, @Logradouro, @UF, @CEP, @Cidade)";
 
             //using var connection = new SqlConnection(_connectionString);
             //using var command = new SqlCommand(query, connection);
@@ -111,7 +113,6 @@ namespace CadastroPessoas.API.Service
             using var command = CreateCommand(query);
 
             command.Parameters.AddWithValue("@PessoaId", pessoaId);
-            command.Parameters.AddWithValue("@Rua", endereco.Rua);
             command.Parameters.AddWithValue("@NumeroCasa", endereco.NumeroCasa);
             command.Parameters.AddWithValue("@Bairro", endereco.Bairro);
             command.Parameters.AddWithValue("@Logradouro", endereco.Logradouro);
@@ -258,7 +259,6 @@ namespace CadastroPessoas.API.Service
                     {
                         var endereco = new Endereco
                         { 
-                            Rua = readerEnderecos["Rua"].ToString()!,
                             NumeroCasa = readerEnderecos["NumeroCasa"].ToString()!,
                             Bairro = readerEnderecos["Bairro"].ToString()!,
                             Logradouro = readerEnderecos["Logradouro"].ToString()!,

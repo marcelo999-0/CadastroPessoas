@@ -3,6 +3,8 @@ using CadastroPessoas.Forms.Interface;
 using Microsoft.Data.SqlClient;
 using System.Net.Http.Json;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using System.Data.Sql;
 
 namespace CadastroPessoas.Forms;
 
@@ -12,22 +14,24 @@ public partial class Form1 : Form
     public Form1()
     {
         InitializeComponent();
-        SqlConnection cn = new SqlConnection("Data Source = localhost ; integrated security = SSPI ; initial catalog = BancoTeste");
-        SqlCommand cm = new SqlCommand();
+        //SqlConnection cn = new SqlConnection("Data Source=EMG5933\\SQLEXPRESS;Initial Catalog=BancoTeste;User ID=sa;Password=********;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30");
+        //SqlCommand cm = new SqlCommand();
     }
 
     private void Form1_Load(object sender, EventArgs e)
     {
-
+     
     }
 
     private async void btnAdicionar_Click(object sender, EventArgs e)
     {
-        Interface.Form2 form2 = new Interface.Form2();
-        form2.ShowDialog();
-
-        await LoadPessoasAsync();
+       using var form2 = new Form2();
+        if (form2.ShowDialog() == DialogResult.OK)
+        {
+            form2.ShowDialog();
+        }
     }
+
 
     private async void btnDeletar_Click(object sender, EventArgs e)
     {
@@ -52,34 +56,58 @@ public partial class Form1 : Form
             }
             else
             {
-                MessageBox.Show("Erro ao deletar pessoa.");
+                var erro = await response.Content.ReadAsStringAsync();
+                MessageBox.Show($"Erro ao carregar pessoas.\nStatus: {response.StatusCode}\nDetalhes: {erro}");
             }
         }
     }
 
-        private static readonly HttpClient _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri("https://localhost:51524"),
-        };
+    private static readonly HttpClient _httpClient = new HttpClient
+    {
+      BaseAddress = new Uri("https://localhost:51524/"),
+    };
+
 
     private async Task LoadPessoasAsync()
     {
-        var response = await _httpClient.GetAsync("api/pessoas");
-        if (response.IsSuccessStatusCode)
-        {
-            MessageBox.Show("Lista carregada com sucesso");
-            var pessoas = await response.Content.ReadFromJsonAsync<List<Pessoa>>();
-            dgvHome.DataSource = pessoas;
-        }
-        else
-        {
-            MessageBox.Show("Erro ao carregar pessoas.");
-        }
+       var response = await _httpClient.GetAsync("api/pessoas");
+       if (response.IsSuccessStatusCode)
+       {
+         MessageBox.Show("Lista carregada com sucesso");
+         var pessoas = await response.Content.ReadFromJsonAsync<List<Pessoa>>();
+         dgvHome.DataSource = pessoas;
+         //MessageBox.Show($"Quantidade de pessoas: {pessoas.Count}");
+         dgvHome.AutoGenerateColumns = true;
+       }
+       else
+       {
+         var erro = await response.Content.ReadAsStringAsync();
+         MessageBox.Show("Erro ao carregar pessoas.\nStatus: {response.StatusCode}\nDetalhes: {erro}");
+       }
     }
 
-    private void btnEditar_Click(object sender, EventArgs e)
+    private async void btnEditar_Click(object sender, EventArgs e)
     {
+      if (dgvHome.CurrentRow == null)
+      {
+        MessageBox.Show("Selecione uma pessoa para editar.");
+        return;
+      }
+        int id = (int)dgvHome.CurrentRow.Cells["Id"].Value;
+        using var client = new HttpClient { BaseAddress = new Uri("https://localhost:XXXX/") };
+        var pessoa = await client.GetFromJsonAsync<Pessoa>($"api/Pessoas/{id}");
+   
+      if (pessoa == null)
+      {
+        MessageBox.Show("Não foi possível carregar os dados da pessoa.");
+        return;
+      }
 
+      using var Form2 = new Form2(pessoa);
+      if (Form2.ShowDialog() == DialogResult.OK)
+      {
+      await LoadPessoasAsync();
+      }
     }
 
     private void btnConsultar_Click(object sender, EventArgs e)

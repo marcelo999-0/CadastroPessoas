@@ -8,7 +8,7 @@ using CadastroPessoas.API.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionString = builder.Configuration.GetConnectionString("Server=localhost;Database=BancoTeste;Trusted_Connection=True;TrustServerCertificate=True;")!;
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
 builder.Services.AddControllers();
 
@@ -25,7 +25,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.MapControllers();
 app.Run();
 
 

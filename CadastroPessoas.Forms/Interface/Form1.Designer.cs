@@ -32,63 +32,39 @@ namespace CadastroPessoas.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             dgvHome = new DataGridView();
-            clnNome = new DataGridViewTextBoxColumn();
-            DataNascimento = new DataGridViewTextBoxColumn();
-            clnCPF = new DataGridViewTextBoxColumn();
-            clnEmail = new DataGridViewTextBoxColumn();
-            clnCidade = new DataGridViewTextBoxColumn();
-            clnUF = new DataGridViewTextBoxColumn();
+            programBindingSource = new BindingSource(components);
+            pessoasCadastroBindingSource = new BindingSource(components);
             btnAdicionar = new Button();
             btnDeletar = new Button();
             btnEditar = new Button();
             btnConsultar = new Button();
             lblTitulo = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvHome).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)programBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pessoasCadastroBindingSource).BeginInit();
             SuspendLayout();
             // 
             // dgvHome
             // 
+            dgvHome.AutoGenerateColumns = false;
             dgvHome.BackgroundColor = SystemColors.GradientInactiveCaption;
             dgvHome.ColumnHeadersHeight = 20;
-            dgvHome.AutoGenerateColumns = true;
-            dgvHome.DataSource = null;
-            dgvHome.Columns.AddRange(new DataGridViewColumn[] { clnNome, DataNascimento, clnCPF, clnEmail, clnCidade, clnUF });
+            dgvHome.DataSource = programBindingSource;
             dgvHome.Location = new Point(58, 75);
             dgvHome.Name = "dgvHome";
             dgvHome.Size = new Size(643, 322);
             dgvHome.TabIndex = 2;
             dgvHome.CellContentClick += dgvHome_CellContentClick;
             // 
-            // clnNome
+            // programBindingSource
             // 
-            clnNome.HeaderText = "Nome";
-            clnNome.Name = "clnNome";
+            programBindingSource.DataSource = typeof(Program);
             // 
-            // DataNascimento
+            // pessoasCadastroBindingSource
             // 
-            DataNascimento.HeaderText = "Data de Nascimento";
-            DataNascimento.Name = "DataNascimento";
-            // 
-            // clnCPF
-            // 
-            clnCPF.HeaderText = "CPF";
-            clnCPF.Name = "clnCPF";
-            // 
-            // clnEmail
-            // 
-            clnEmail.HeaderText = "Email";
-            clnEmail.Name = "clnEmail";
-            // 
-            // clnCidade
-            // 
-            clnCidade.HeaderText = "Cidade";
-            clnCidade.Name = "clnCidade";
-            // 
-            // clnUF
-            // 
-            clnUF.HeaderText = "UF";
-            clnUF.Name = "clnUF";
+            pessoasCadastroBindingSource.DataSource = typeof(PessoasCadastro);
             // 
             // btnAdicionar
             // 
@@ -162,6 +138,8 @@ namespace CadastroPessoas.Forms
             Text = "FormCadastroPessoas";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgvHome).EndInit();
+            ((System.ComponentModel.ISupportInitialize)programBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pessoasCadastroBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -174,11 +152,7 @@ namespace CadastroPessoas.Forms
         private Button btnAdicionar;
         private Button btnConsultar;
         private Label lblTitulo;
-        private DataGridViewTextBoxColumn clnNome;
-        private DataGridViewTextBoxColumn DataNascimento;
-        private DataGridViewTextBoxColumn clnCPF;
-        private DataGridViewTextBoxColumn clnEmail;
-        private DataGridViewTextBoxColumn clnCidade;
-        private DataGridViewTextBoxColumn clnUF;
+        private BindingSource pessoasCadastroBindingSource;
+        private BindingSource programBindingSource;
     }
 }
