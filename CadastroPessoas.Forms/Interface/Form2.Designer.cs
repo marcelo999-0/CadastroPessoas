@@ -43,7 +43,10 @@
             dgvEnderecos = new DataGridView();
             dgvTelefones = new DataGridView();
             gbEndereco = new GroupBox();
+            chkPrincipalEndereco = new CheckBox();
+            btnRemoverEndereco = new Button();
             listEndereco = new ListBox();
+            btnAdicionarEndereco = new Button();
             cbUf = new ComboBox();
             txtComplemento = new TextBox();
             txtNumeroCasa = new MaskedTextBox();
@@ -58,16 +61,17 @@
             lblBairro = new Label();
             Logradouro = new Label();
             gbTelefones = new GroupBox();
+            btnRemoverTelefone = new Button();
+            btnAdicionarTelefone = new Button();
             listTelefone = new ListBox();
-            comboBox1 = new ComboBox();
-            maskedTextBox2 = new MaskedTextBox();
-            maskedTextBox1 = new MaskedTextBox();
+            cbTipo = new ComboBox();
+            txtDDD = new MaskedTextBox();
+            txtNumeroTelefone = new MaskedTextBox();
             lblDDD = new Label();
             lblTipo = new Label();
             lblNumeroTelefone = new Label();
-            btnRemover = new Button();
-            btnAdicionar = new Button();
             lblNome = new Label();
+            chkPrincipalTelefone = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)dgvEnderecos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvTelefones).BeginInit();
             gbEndereco.SuspendLayout();
@@ -157,6 +161,7 @@
             btnCancelar.TabIndex = 27;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click_1;
             // 
             // lblNumeroCasa
             // 
@@ -210,7 +215,10 @@
             // gbEndereco
             // 
             gbEndereco.BackColor = Color.LightSteelBlue;
+            gbEndereco.Controls.Add(chkPrincipalEndereco);
+            gbEndereco.Controls.Add(btnRemoverEndereco);
             gbEndereco.Controls.Add(listEndereco);
+            gbEndereco.Controls.Add(btnAdicionarEndereco);
             gbEndereco.Controls.Add(cbUf);
             gbEndereco.Controls.Add(txtComplemento);
             gbEndereco.Controls.Add(txtNumeroCasa);
@@ -232,6 +240,26 @@
             gbEndereco.TabStop = false;
             gbEndereco.Text = "Endereços";
             // 
+            // chkPrincipalEndereco
+            // 
+            chkPrincipalEndereco.AutoSize = true;
+            chkPrincipalEndereco.Location = new Point(346, 135);
+            chkPrincipalEndereco.Name = "chkPrincipalEndereco";
+            chkPrincipalEndereco.Size = new Size(72, 19);
+            chkPrincipalEndereco.TabIndex = 33;
+            chkPrincipalEndereco.Text = "Principal";
+            chkPrincipalEndereco.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoverEndereco
+            // 
+            btnRemoverEndereco.Location = new Point(325, 79);
+            btnRemoverEndereco.Name = "btnRemoverEndereco";
+            btnRemoverEndereco.Size = new Size(96, 28);
+            btnRemoverEndereco.TabIndex = 32;
+            btnRemoverEndereco.Text = "Remover";
+            btnRemoverEndereco.UseVisualStyleBackColor = true;
+            btnRemoverEndereco.Click += btnRemoverEndereco_Click;
+            // 
             // listEndereco
             // 
             listEndereco.FormattingEnabled = true;
@@ -241,10 +269,20 @@
             listEndereco.TabIndex = 9;
             listEndereco.SelectedIndexChanged += listEndereco_SelectedIndexChanged;
             // 
+            // btnAdicionarEndereco
+            // 
+            btnAdicionarEndereco.Location = new Point(325, 34);
+            btnAdicionarEndereco.Name = "btnAdicionarEndereco";
+            btnAdicionarEndereco.Size = new Size(96, 28);
+            btnAdicionarEndereco.TabIndex = 32;
+            btnAdicionarEndereco.Text = "Adicionar";
+            btnAdicionarEndereco.UseVisualStyleBackColor = true;
+            btnAdicionarEndereco.Click += btnAdicionarEndereco_Click;
+            // 
             // cbUf
             // 
             cbUf.FormattingEnabled = true;
-            cbUf.Location = new Point(259, 86);
+            cbUf.Location = new Point(174, 86);
             cbUf.Name = "cbUf";
             cbUf.Size = new Size(121, 23);
             cbUf.TabIndex = 8;
@@ -252,7 +290,7 @@
             // txtComplemento
             // 
             txtComplemento.BackColor = SystemColors.Window;
-            txtComplemento.Location = new Point(259, 131);
+            txtComplemento.Location = new Point(178, 131);
             txtComplemento.Name = "txtComplemento";
             txtComplemento.Size = new Size(162, 23);
             txtComplemento.TabIndex = 3;
@@ -268,7 +306,7 @@
             // 
             // txtCep
             // 
-            txtCep.Location = new Point(259, 39);
+            txtCep.Location = new Point(202, 40);
             txtCep.Mask = "00000-000";
             txtCep.Name = "txtCep";
             txtCep.Size = new Size(81, 23);
@@ -304,7 +342,7 @@
             lblCep.AutoSize = true;
             lblCep.Font = new Font("Trebuchet MS", 10F);
             lblCep.ForeColor = Color.MidnightBlue;
-            lblCep.Location = new Point(259, 19);
+            lblCep.Location = new Point(202, 18);
             lblCep.Name = "lblCep";
             lblCep.Size = new Size(32, 18);
             lblCep.TabIndex = 0;
@@ -315,7 +353,7 @@
             lblUf.AutoSize = true;
             lblUf.Font = new Font("Trebuchet MS", 10F);
             lblUf.ForeColor = Color.MidnightBlue;
-            lblUf.Location = new Point(259, 65);
+            lblUf.Location = new Point(178, 65);
             lblUf.Name = "lblUf";
             lblUf.Size = new Size(24, 18);
             lblUf.TabIndex = 0;
@@ -326,7 +364,7 @@
             lblComplemento.AutoSize = true;
             lblComplemento.Font = new Font("Trebuchet MS", 10F);
             lblComplemento.ForeColor = Color.MidnightBlue;
-            lblComplemento.Location = new Point(259, 110);
+            lblComplemento.Location = new Point(178, 110);
             lblComplemento.Name = "lblComplemento";
             lblComplemento.Size = new Size(95, 18);
             lblComplemento.TabIndex = 0;
@@ -368,10 +406,13 @@
             // 
             // gbTelefones
             // 
+            gbTelefones.Controls.Add(chkPrincipalTelefone);
+            gbTelefones.Controls.Add(btnRemoverTelefone);
+            gbTelefones.Controls.Add(btnAdicionarTelefone);
             gbTelefones.Controls.Add(listTelefone);
-            gbTelefones.Controls.Add(comboBox1);
-            gbTelefones.Controls.Add(maskedTextBox2);
-            gbTelefones.Controls.Add(maskedTextBox1);
+            gbTelefones.Controls.Add(cbTipo);
+            gbTelefones.Controls.Add(txtDDD);
+            gbTelefones.Controls.Add(txtNumeroTelefone);
             gbTelefones.Controls.Add(lblDDD);
             gbTelefones.Controls.Add(lblTipo);
             gbTelefones.Controls.Add(lblNumeroTelefone);
@@ -382,6 +423,26 @@
             gbTelefones.TabStop = false;
             gbTelefones.Text = "Telefones";
             // 
+            // btnRemoverTelefone
+            // 
+            btnRemoverTelefone.Location = new Point(178, 87);
+            btnRemoverTelefone.Name = "btnRemoverTelefone";
+            btnRemoverTelefone.Size = new Size(96, 28);
+            btnRemoverTelefone.TabIndex = 32;
+            btnRemoverTelefone.Text = "Remover";
+            btnRemoverTelefone.UseVisualStyleBackColor = true;
+            btnRemoverTelefone.Click += btnRemoverTelefone_Click;
+            // 
+            // btnAdicionarTelefone
+            // 
+            btnAdicionarTelefone.Location = new Point(178, 40);
+            btnAdicionarTelefone.Name = "btnAdicionarTelefone";
+            btnAdicionarTelefone.Size = new Size(96, 28);
+            btnAdicionarTelefone.TabIndex = 32;
+            btnAdicionarTelefone.Text = "Adicionar";
+            btnAdicionarTelefone.UseVisualStyleBackColor = true;
+            btnAdicionarTelefone.Click += btnAdicionarTelefone_Click;
+            // 
             // listTelefone
             // 
             listTelefone.FormattingEnabled = true;
@@ -391,31 +452,33 @@
             listTelefone.TabIndex = 9;
             listTelefone.SelectedIndexChanged += listTelefone_SelectedIndexChanged;
             // 
-            // comboBox1
+            // cbTipo
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(6, 94);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 8;
+            cbTipo.FormattingEnabled = true;
+            cbTipo.Items.AddRange(new object[] { "Residencial", "Empresarial", "Celular" });
+            cbTipo.Location = new Point(6, 94);
+            cbTipo.Name = "cbTipo";
+            cbTipo.Size = new Size(121, 23);
+            cbTipo.TabIndex = 8;
+            cbTipo.Text = "4";
             // 
-            // maskedTextBox2
+            // txtDDD
             // 
-            maskedTextBox2.Location = new Point(6, 45);
-            maskedTextBox2.Mask = "___";
-            maskedTextBox2.Name = "maskedTextBox2";
-            maskedTextBox2.Size = new Size(28, 23);
-            maskedTextBox2.TabIndex = 7;
-            maskedTextBox2.ValidatingType = typeof(DateTime);
+            txtDDD.Location = new Point(6, 45);
+            txtDDD.Mask = "000";
+            txtDDD.Name = "txtDDD";
+            txtDDD.Size = new Size(28, 23);
+            txtDDD.TabIndex = 7;
+            txtDDD.ValidatingType = typeof(DateTime);
             // 
-            // maskedTextBox1
+            // txtNumeroTelefone
             // 
-            maskedTextBox1.Location = new Point(46, 45);
-            maskedTextBox1.Mask = "00000-0000";
-            maskedTextBox1.Name = "maskedTextBox1";
-            maskedTextBox1.Size = new Size(81, 23);
-            maskedTextBox1.TabIndex = 7;
-            maskedTextBox1.ValidatingType = typeof(DateTime);
+            txtNumeroTelefone.Location = new Point(46, 45);
+            txtNumeroTelefone.Mask = "00000-0000";
+            txtNumeroTelefone.Name = "txtNumeroTelefone";
+            txtNumeroTelefone.Size = new Size(81, 23);
+            txtNumeroTelefone.TabIndex = 7;
+            txtNumeroTelefone.ValidatingType = typeof(DateTime);
             // 
             // lblDDD
             // 
@@ -452,25 +515,6 @@
             lblNumeroTelefone.Text = "Número";
             lblNumeroTelefone.Click += lblNumeroCasa_Click;
             // 
-            // btnRemover
-            // 
-            btnRemover.Location = new Point(598, 516);
-            btnRemover.Name = "btnRemover";
-            btnRemover.Size = new Size(96, 28);
-            btnRemover.TabIndex = 32;
-            btnRemover.Text = "Remover";
-            btnRemover.UseVisualStyleBackColor = true;
-            // 
-            // btnAdicionar
-            // 
-            btnAdicionar.Location = new Point(446, 516);
-            btnAdicionar.Name = "btnAdicionar";
-            btnAdicionar.Size = new Size(96, 28);
-            btnAdicionar.TabIndex = 32;
-            btnAdicionar.Text = "Adicionar";
-            btnAdicionar.UseVisualStyleBackColor = true;
-            btnAdicionar.Click += btnAdicionar_Click;
-            // 
             // lblNome
             // 
             lblNome.AutoSize = true;
@@ -482,14 +526,22 @@
             lblNome.TabIndex = 2;
             lblNome.Text = "Nome";
             // 
+            // chkPrincipalTelefone
+            // 
+            chkPrincipalTelefone.AutoSize = true;
+            chkPrincipalTelefone.Location = new Point(343, 96);
+            chkPrincipalTelefone.Name = "chkPrincipalTelefone";
+            chkPrincipalTelefone.Size = new Size(72, 19);
+            chkPrincipalTelefone.TabIndex = 33;
+            chkPrincipalTelefone.Text = "Principal";
+            chkPrincipalTelefone.UseVisualStyleBackColor = true;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSteelBlue;
             ClientSize = new Size(729, 558);
-            Controls.Add(btnAdicionar);
-            Controls.Add(btnRemover);
             Controls.Add(gbTelefones);
             Controls.Add(txtCPF);
             Controls.Add(gbEndereco);
@@ -540,8 +592,8 @@
         private DataGridView dgvTelefones;
         private GroupBox gbEndereco;
         private GroupBox gbTelefones;
-        private Button btnRemover;
-        private Button btnAdicionar;
+        private Button btnRemoverTelefone;
+        private Button btnAdicionarTelefone;
         private TextBox txtBairro;
         private TextBox txtLogradouro;
         private TextBox txtCidade;
@@ -557,9 +609,9 @@
         private Label lblBairro;
         private ComboBox cbUf;
         private MaskedTextBox txtCep;
-        private ComboBox comboBox1;
-        private MaskedTextBox maskedTextBox2;
-        private MaskedTextBox maskedTextBox1;
+        private ComboBox cbTipo;
+        private MaskedTextBox txtDDD;
+        private MaskedTextBox txtNumeroTelefone;
         private ListBox listEndereco;
         private ListBox listTelefone;
         private MaskedTextBox txtNumeroCasa;
@@ -568,5 +620,9 @@
         private Label lblTipo;
         private Label lblNumeroTelefone;
         private Label lblNome;
+        private Button btnRemoverEndereco;
+        private Button btnAdicionarEndereco;
+        private CheckBox chkPrincipalEndereco;
+        private CheckBox chkPrincipalTelefone;
     }
 }

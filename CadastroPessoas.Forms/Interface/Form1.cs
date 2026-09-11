@@ -94,7 +94,7 @@ public partial class Form1 : Form
         return;
       }
         int id = (int)dgvHome.CurrentRow.Cells["Id"].Value;
-        using var client = new HttpClient { BaseAddress = new Uri("https://localhost:XXXX/") };
+        using var client = new HttpClient { BaseAddress = new Uri("https://localhost:51524/") };
         var pessoa = await client.GetFromJsonAsync<Pessoa>($"api/Pessoas/{id}");
    
       if (pessoa == null)
@@ -108,6 +108,8 @@ public partial class Form1 : Form
       {
       await LoadPessoasAsync();
       }
+   
+      
     }
 
     private void btnConsultar_Click(object sender, EventArgs e)

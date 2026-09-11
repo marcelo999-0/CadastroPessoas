@@ -318,7 +318,6 @@ namespace CadastroPessoas.API.Service
                 {
                     var endereco = new Endereco
                     {
-                        Rua = reader["Rua"].ToString()!,
                         NumeroCasa = reader["NumeroCasa"].ToString()!,
                         Bairro = reader["Bairro"].ToString()!,
                         Logradouro = reader["Logradouro"].ToString()!,

@@ -24,7 +24,8 @@ namespace CadastroPessoas.Forms.Interface
         public Form2(Pessoa pessoa)
         {
             InitializeComponent();
-            _pessoaEditando = null;
+            _pessoaEditando = pessoa;
+            PreencherCampos(pessoa);
         }
 
         public Form2()
@@ -73,8 +74,8 @@ namespace CadastroPessoas.Forms.Interface
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            dgvTelefones.DataSource = _telefones;
-            dgvEnderecos.DataSource = _enderecos;
+            listEndereco.DataSource = _enderecos;
+            listTelefone.DataSource = _telefones;
 
         }
 
@@ -105,7 +106,7 @@ namespace CadastroPessoas.Forms.Interface
                 return;
             }
 
-            if (_enderecos.Count(en => en.Principal == true) != 1)
+            if (_enderecos.Count(en => en.Principal) != 1)
             {
                 MessageBox.Show("Por favor, marque exatamente um endereço como principal.");
                 return;
@@ -113,32 +114,14 @@ namespace CadastroPessoas.Forms.Interface
 
             var pessoa = new Pessoa
             {
-
                 Nome = txtNome.Text,
                 CPF = txtCPF.Text,
-                DataNascimento = DateTime.Parse(DataNascimento.Text),
+                DataNascimento = dataNascimento,
                 Email = txtEmail.Text,
-                Enderecos = new List<Endereco>(),
-                Telefones = new List<Telefone>(),
+                Enderecos = _enderecos.ToList(),
+                Telefones = _telefones.ToList(),
             };
 
-            var endereco = new Endereco
-            {
-                PessoaId = pessoa.Id,
-                Cidade = dgvEnderecos.SelectedCells[0].Value?.ToString(),
-                UF = dgvEnderecos.SelectedCells[1].Value?.ToString(),
-                Bairro = dgvEnderecos.SelectedCells[2].Value?.ToString(),
-                CEP = dgvEnderecos.SelectedCells[3].Value?.ToString(),
-                NumeroCasa = dgvEnderecos.SelectedCells[4].Value?.ToString(),
-                Logradouro = dgvEnderecos.SelectedCells[5].Value?.ToString()
-            };
-
-            var telefone = new Telefone
-            {
-                DDD = dgvTelefones.SelectedCells[0].Value?.ToString(),
-                Numero = dgvTelefones.SelectedCells[1].Value?.ToString(),
-                Tipo = dgvTelefones.SelectedCells[2].Value?.ToString() ?? ""
-            };
             using var client = new HttpClient { BaseAddress = new Uri("https://localhost:51524/") };
             HttpResponseMessage response;
 
@@ -172,127 +155,90 @@ namespace CadastroPessoas.Forms.Interface
 
         private void dgvEnderecos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dgvEnderecos.AutoGenerateColumns = false;
-            dgvEnderecos.Columns.Clear();
-
-            dgvEnderecos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Cidade",
-                HeaderText = "Cidade",
-                DataPropertyName = "Cidade"
-            });
-
-            dgvEnderecos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "UF",
-                HeaderText = "UF",
-                DataPropertyName = "UF"
-            });
-
-            dgvEnderecos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Bairro",
-                HeaderText = "Bairro",
-                DataPropertyName = "Bairro"
-            });
-
-            dgvEnderecos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "CEP",
-                HeaderText = "CEP",
-                DataPropertyName = "CEP"
-            });
-
-            dgvEnderecos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "NumeroCasa",
-                HeaderText = "Número da Casa",
-                DataPropertyName = "NumeroCasa"
-            });
-
-            dgvEnderecos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Logradouro",
-                HeaderText = "Logradouro",
-                DataPropertyName = "Logradouro"
-            });
-
-            dgvEnderecos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "PessoaId",
-                HeaderText = "PessoaId",
-                DataPropertyName = "PessoaId"
-            });
+        
         }
 
         private void dgvTelefones_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dgvTelefones.AutoGenerateColumns = false;
-            dgvEnderecos.Columns.Clear();
-
-            dgvTelefones.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "DDD",
-                HeaderText = "DDD",
-                DataPropertyName = "DDD"
-            });
-            dgvTelefones.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Numero",
-                HeaderText = "Número",
-                DataPropertyName = "Numero"
-            });
-            dgvTelefones.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Tipo",
-                HeaderText = "Tipo",
-                DataPropertyName = "Tipo"
-            });
-            dgvTelefones.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "PessoaId",
-                HeaderText = "PessoaId",
-                DataPropertyName = "PessoaId"
-            });
+        
         }
 
-        private void btnAdicionar_Click(object sender, EventArgs e)
-        {
+        //private void btnAdicionarTelefone_Click(object sender, EventArgs e)
+        //{
+        //    if (string.IsNullOrEmpty(txtDDD.Text) ||
+        //        string.IsNullOrEmpty(txtNumeroTelefone.Text) ||
+        //        cbTipo.SelectedItem == null)
+        //    {
+        //        MessageBox.Show("Preencher DDD, Número e Tipo de telefone");
+        //        return;
+        //    }
 
-            if (string.IsNullOrWhiteSpace(txtLogradouro.Text) ||
-                string.IsNullOrWhiteSpace(txtCidade.Text) ||
-                string.IsNullOrWhiteSpace(txtCep.Text))
+        //    var novoTelefone = new Telefone
+        //    {
+        //        DDD = txtDDD.Text,
+        //        Numero = txtNumeroTelefone.Text,
+        //        Tipo = cbTipo.SelectedItem.ToString() ?? ""
+
+        //    };
+
+        //    _telefones.Add(novoTelefone);
+        //    LimparCamposTelefone();
+        //}
+
+
+        private void btnAdicionarEndereco_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtLogradouro.Text) ||
+                string.IsNullOrEmpty(txtCidade.Text) ||
+                string.IsNullOrEmpty(txtCep.Text))
+
             {
-                MessageBox.Show("Preencha ao menos Logradouro, Cidade e CEP do endereço.");
+                MessageBox.Show("Preencha ao menos Logradouro, Cidade e CEP");
                 return;
             }
 
-            _enderecos.Add(new Endereco
+            bool marcarComoPrincipal = chkPrincipalEndereco.Checked || _enderecos.Count == 0;
+
+            var novoEndereco = new Endereco
             {
+                Logradouro = txtLogradouro.Text,
                 NumeroCasa = txtNumeroCasa.Text,
                 Bairro = txtBairro.Text,
-                Logradouro = txtLogradouro.Text,
+                UF = cbUf.SelectedItem?.ToString(),
                 Cidade = txtCidade.Text,
-                UF = cbUf.SelectedItem?.ToString() ?? "",
                 CEP = txtCep.Text,
-                Principal = chkPrincipal.Checked
-            });
+                Principal = _enderecos.Count == 0
 
-            LimparCamposNovoEndereco();
+            };
+
+            _enderecos.Add(novoEndereco);
+            LimparCamposEndereco();
         }
-
-        private void LimparCamposNovoEndereco()
+        private void LimparCamposEndereco()
         {
             txtLogradouro.Clear();
             txtNumeroCasa.Clear();
             txtBairro.Clear();
-            txtLogradouro.Clear();
+            cbUf.SelectedItem = -1;
             txtCidade.Clear();
-            cbUf.SelectedIndex = -1;
             txtCep.Clear();
-            chkPrincipal.Checked = false;
+            chkPrincipalEndereco.Checked = false;
         }
+        private void PreencherCampos(Pessoa pessoa)
+        {
+            txtNome.Text = pessoa.Nome;
+            txtCPF.Text = pessoa.CPF;
+            DataNascimento.Text = pessoa.DataNascimento.ToString("dd/MM/yyyy");
 
+            _enderecos.Clear();
+            foreach (var endereco in pessoa.Enderecos)
+                _enderecos.Add(endereco);
+
+            _telefones.Clear();
+            foreach (var telefone in pessoa.Telefones)
+                _telefones.Add(telefone);
+
+        }
         private void listEndereco_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -307,9 +253,67 @@ namespace CadastroPessoas.Forms.Interface
         {
 
         }
+
+        private void btnRemoverEndereco_Click(object sender, EventArgs e)
+        {
+            if(listEndereco.SelectedIndex == -1)
+            {
+                MessageBox.Show("Selecione um endereço para remover.");
+                return;
+            }
+
+            _enderecos.RemoveAt(listEndereco.SelectedIndex);
+        }
+
+        private void btnRemoverTelefone_Click(object sender, EventArgs e)
+        {
+            if(listTelefone.SelectedIndex == -1)
+            {
+                MessageBox.Show("Selecione um telefone para remover");
+                return;
+            }
+        
+            _telefones.RemoveAt(listTelefone.SelectedIndex);
+        }
+
+        private void btnAdicionarTelefone_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtCPF.Text) ||
+                string.IsNullOrEmpty(txtNumeroTelefone.Text) ||
+                cbTipo.SelectedItem == null)
+            {
+                MessageBox.Show("Preencha DDD, Número e Tipo de telefone.");
+                return;
+            }
+            
+            bool marcarComoPrincipal = chkPrincipalTelefone.Checked || _enderecos.Count == 0;
+            
+            var novoTelefone = new Telefone
+            {
+                DDD = txtDDD.Text,
+                Numero = txtNumeroTelefone.Text,
+                Tipo = cbTipo.SelectedItem.ToString() ?? "",
+            };
+
+            _telefones.Add(novoTelefone);
+            LimparCamposTelefone();
+
+        }
+        private void LimparCamposTelefone()
+        {
+            txtDDD.Clear();
+            txtNumeroTelefone.Clear();
+            cbTipo.SelectedItem = -1;
+            chkPrincipalEndereco.Checked = false;
+        }
+
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
-}
+
 
 
 
