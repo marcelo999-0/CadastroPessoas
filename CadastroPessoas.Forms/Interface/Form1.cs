@@ -18,9 +18,9 @@ public partial class Form1 : Form
         //SqlCommand cm = new SqlCommand();
     }
 
-    private void Form1_Load(object sender, EventArgs e)
+    private async void Form1_Load(object sender, EventArgs e)
     {
-     
+        await LoadPessoasAsync();
     }
 
     private async void btnAdicionar_Click(object sender, EventArgs e)
@@ -28,8 +28,10 @@ public partial class Form1 : Form
        using var form2 = new Form2();
         if (form2.ShowDialog() == DialogResult.OK)
         {
-            form2.ShowDialog();
+            await LoadPessoasAsync();
         }
+
+    
     }
 
 
@@ -93,7 +95,7 @@ public partial class Form1 : Form
         MessageBox.Show("Selecione uma pessoa para editar.");
         return;
       }
-        int id = (int)dgvHome.CurrentRow.Cells["Id"].Value;
+        int id = Convert.ToInt32(dgvHome.CurrentRow.Cells["Id"].Value);
         using var client = new HttpClient { BaseAddress = new Uri("https://localhost:51524/") };
         var pessoa = await client.GetFromJsonAsync<Pessoa>($"api/Pessoas/{id}");
    
@@ -103,7 +105,7 @@ public partial class Form1 : Form
         return;
       }
 
-      using var Form2 = new Form2(pessoa);
+      using var Form2 = new Form2(pessoa, false);
       if (Form2.ShowDialog() == DialogResult.OK)
       {
       await LoadPessoasAsync();
@@ -112,10 +114,25 @@ public partial class Form1 : Form
       
     }
 
-    private void btnConsultar_Click(object sender, EventArgs e)
+    private async void btnConsultar_Click(object sender, EventArgs e)
     {
+        if (dgvHome.CurrentRow == null)
+        {
+            MessageBox.Show("Selecione uma pessoa para consultar");
+            return;
+        }
+         int id = Convert.ToInt32(dgvHome.CurrentRow.Cells["Id"].Value);
+         using var client = new HttpClient { BaseAddress = new Uri("https://localhost:51524/") };
+         var pessoa = await client.GetFromJsonAsync<Pessoa>($"api/Pessoas/{id}");
+       
+        if(pessoa == null)
+        {
+            MessageBox.Show("Não foi possível carregar os dados da pessoa");
+            return;
+        }
 
-
+        using var Form2 = new Form2(pessoa, true);
+        Form2.ShowDialog();
     }
 
     private void dgvHome_CellContentClick(object sender, DataGridViewCellEventArgs e)

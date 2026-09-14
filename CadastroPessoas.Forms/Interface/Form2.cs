@@ -21,12 +21,15 @@ namespace CadastroPessoas.Forms.Interface
         private readonly BindingList<Endereco> _enderecos = new();
         private readonly BindingList<Telefone> _telefones = new();
 
-        public Form2(Pessoa pessoa)
+        public Form2(Pessoa pessoa, bool ModoConsulta)
         {
             InitializeComponent();
             _pessoaEditando = pessoa;
             PreencherCampos(pessoa);
+            btnSalvar.Visible = !ModoConsulta;
+            btnCancelar.Text = ModoConsulta ? "Fechar" : "Cancelar";
         }
+
 
         public Form2()
         {
@@ -35,12 +38,12 @@ namespace CadastroPessoas.Forms.Interface
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Deseja realmente cancelar o cadastro?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                this.Close();
-            }
-
+            //var result = MessageBox.Show("Deseja realmente cancelar o cadastro?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //if (result == DialogResult.Yes)
+            //{
+            //    this.Close();
+            //}
+            this.Close();
         }
         private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
@@ -106,7 +109,7 @@ namespace CadastroPessoas.Forms.Interface
                 return;
             }
 
-            if (_enderecos.Count(en => en.Principal) != 1)
+            if (_enderecos.Count(en => en.isPrincipal) != 1)
             {
                 MessageBox.Show("Por favor, marque exatamente um endereço como principal.");
                 return;
@@ -138,6 +141,7 @@ namespace CadastroPessoas.Forms.Interface
             if (response.IsSuccessStatusCode)
             {
                 MessageBox.Show("Pessoa salva com sucesso!");
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
 
@@ -155,36 +159,13 @@ namespace CadastroPessoas.Forms.Interface
 
         private void dgvEnderecos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-        
+
         }
 
         private void dgvTelefones_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-        
+
         }
-
-        //private void btnAdicionarTelefone_Click(object sender, EventArgs e)
-        //{
-        //    if (string.IsNullOrEmpty(txtDDD.Text) ||
-        //        string.IsNullOrEmpty(txtNumeroTelefone.Text) ||
-        //        cbTipo.SelectedItem == null)
-        //    {
-        //        MessageBox.Show("Preencher DDD, Número e Tipo de telefone");
-        //        return;
-        //    }
-
-        //    var novoTelefone = new Telefone
-        //    {
-        //        DDD = txtDDD.Text,
-        //        Numero = txtNumeroTelefone.Text,
-        //        Tipo = cbTipo.SelectedItem.ToString() ?? ""
-
-        //    };
-
-        //    _telefones.Add(novoTelefone);
-        //    LimparCamposTelefone();
-        //}
-
 
         private void btnAdicionarEndereco_Click(object sender, EventArgs e)
         {
@@ -204,10 +185,10 @@ namespace CadastroPessoas.Forms.Interface
                 Logradouro = txtLogradouro.Text,
                 NumeroCasa = txtNumeroCasa.Text,
                 Bairro = txtBairro.Text,
-                UF = cbUf.SelectedItem?.ToString(),
+                UF = cbUf.Text,
                 Cidade = txtCidade.Text,
                 CEP = txtCep.Text,
-                Principal = _enderecos.Count == 0
+                isPrincipal = _enderecos.Count == 0
 
             };
 
@@ -216,6 +197,7 @@ namespace CadastroPessoas.Forms.Interface
         }
         private void LimparCamposEndereco()
         {
+            txtComplemento.Clear();
             txtLogradouro.Clear();
             txtNumeroCasa.Clear();
             txtBairro.Clear();
@@ -229,6 +211,8 @@ namespace CadastroPessoas.Forms.Interface
             txtNome.Text = pessoa.Nome;
             txtCPF.Text = pessoa.CPF;
             DataNascimento.Text = pessoa.DataNascimento.ToString("dd/MM/yyyy");
+            txtEmail.Text = pessoa.Email;
+
 
             _enderecos.Clear();
             foreach (var endereco in pessoa.Enderecos)
@@ -256,7 +240,7 @@ namespace CadastroPessoas.Forms.Interface
 
         private void btnRemoverEndereco_Click(object sender, EventArgs e)
         {
-            if(listEndereco.SelectedIndex == -1)
+            if (listEndereco.SelectedIndex == -1)
             {
                 MessageBox.Show("Selecione um endereço para remover.");
                 return;
@@ -267,12 +251,12 @@ namespace CadastroPessoas.Forms.Interface
 
         private void btnRemoverTelefone_Click(object sender, EventArgs e)
         {
-            if(listTelefone.SelectedIndex == -1)
+            if (listTelefone.SelectedIndex == -1)
             {
                 MessageBox.Show("Selecione um telefone para remover");
                 return;
             }
-        
+
             _telefones.RemoveAt(listTelefone.SelectedIndex);
         }
 
@@ -285,14 +269,13 @@ namespace CadastroPessoas.Forms.Interface
                 MessageBox.Show("Preencha DDD, Número e Tipo de telefone.");
                 return;
             }
-            
-            bool marcarComoPrincipal = chkPrincipalTelefone.Checked || _enderecos.Count == 0;
-            
+
+
             var novoTelefone = new Telefone
             {
                 DDD = txtDDD.Text,
                 Numero = txtNumeroTelefone.Text,
-                Tipo = cbTipo.SelectedItem.ToString() ?? "",
+                Tipo = cbTipo.Text,
             };
 
             _telefones.Add(novoTelefone);
@@ -303,16 +286,32 @@ namespace CadastroPessoas.Forms.Interface
         {
             txtDDD.Clear();
             txtNumeroTelefone.Clear();
-            cbTipo.SelectedItem = -1;
-            chkPrincipalEndereco.Checked = false;
+            cbTipo.SelectedIndex = -1;
         }
 
         private void btnCancelar_Click_1(object sender, EventArgs e)
         {
+            //var confirm = MessageBox.Show("Tem certeza que deseja cancelar?", "Confirmar Exclusão", MessageBoxButtons.YesNo);
+            //if (confirm == DialogResult.Yes)
+            //{
+            //    LimparCamposEndereco();
+            //    LimparCamposTelefone();
+            //    txtNome.Clear();
+            //    txtEmail.Clear();
+            //    DataNascimento.Clear();
+            //    txtCPF.Clear();
 
+            //    this.Close();
+            //}
+            this.Close();
         }
+        
+    
     }
 }
+
+
+
 
 
 

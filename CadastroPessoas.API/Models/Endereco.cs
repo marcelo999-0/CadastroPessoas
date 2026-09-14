@@ -17,11 +17,11 @@ namespace CadastroPessoas.API.Models
         public string? UF { get; set; }
         public string? CEP { get; set; }
         public string? Cidade { get; set; }
-        public bool Principal { get; set; }
+        public bool isPrincipal { get; set; }
 
         public override string ToString()
         {
-            var marcador = Principal ? " (Principal)" : "";
+            var marcador = isPrincipal ? " (Principal)" : "";
             return $"{Logradouro}, {NumeroCasa} - {Bairro}, {Cidade}/{UF}{marcador}";
         }
     }

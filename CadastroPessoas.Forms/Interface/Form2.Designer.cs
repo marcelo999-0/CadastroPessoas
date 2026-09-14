@@ -30,7 +30,6 @@
         {
             txtNome = new TextBox();
             txtEmail = new TextBox();
-            lblNome2 = new Label();
             lblDataNasc = new Label();
             lblEmail = new Label();
             lblCPF = new Label();
@@ -39,7 +38,6 @@
             btnCancelar = new Button();
             lblNumeroCasa = new Label();
             sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
-            DataNascimento = new MaskedTextBox();
             dgvEnderecos = new DataGridView();
             dgvTelefones = new DataGridView();
             gbEndereco = new GroupBox();
@@ -71,7 +69,8 @@
             lblTipo = new Label();
             lblNumeroTelefone = new Label();
             lblNome = new Label();
-            chkPrincipalTelefone = new CheckBox();
+            lblNome2 = new Label();
+            DataNascimento = new MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)dgvEnderecos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvTelefones).BeginInit();
             gbEndereco.SuspendLayout();
@@ -93,13 +92,6 @@
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(288, 23);
             txtEmail.TabIndex = 3;
-            // 
-            // lblNome2
-            // 
-            lblNome2.Location = new Point(0, 0);
-            lblNome2.Name = "lblNome2";
-            lblNome2.Size = new Size(100, 23);
-            lblNome2.TabIndex = 8;
             // 
             // lblDataNasc
             // 
@@ -182,14 +174,6 @@
             sqliteCommand1.Transaction = null;
             sqliteCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
             // 
-            // DataNascimento
-            // 
-            DataNascimento.Location = new Point(358, 26);
-            DataNascimento.Mask = "00/00/0000";
-            DataNascimento.Name = "DataNascimento";
-            DataNascimento.Size = new Size(100, 23);
-            DataNascimento.TabIndex = 5;
-            // 
             // dgvEnderecos
             // 
             dgvEnderecos.BackgroundColor = Color.LightSteelBlue;
@@ -263,9 +247,12 @@
             // listEndereco
             // 
             listEndereco.FormattingEnabled = true;
-            listEndereco.Location = new Point(498, 18);
+            listEndereco.HorizontalScrollbar = true;
+            listEndereco.Location = new Point(427, 18);
             listEndereco.Name = "listEndereco";
-            listEndereco.Size = new Size(198, 154);
+            listEndereco.RightToLeft = RightToLeft.No;
+            listEndereco.ScrollAlwaysVisible = true;
+            listEndereco.Size = new Size(269, 154);
             listEndereco.TabIndex = 9;
             listEndereco.SelectedIndexChanged += listEndereco_SelectedIndexChanged;
             // 
@@ -282,6 +269,7 @@
             // cbUf
             // 
             cbUf.FormattingEnabled = true;
+            cbUf.Items.AddRange(new object[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" });
             cbUf.Location = new Point(174, 86);
             cbUf.Name = "cbUf";
             cbUf.Size = new Size(121, 23);
@@ -406,7 +394,6 @@
             // 
             // gbTelefones
             // 
-            gbTelefones.Controls.Add(chkPrincipalTelefone);
             gbTelefones.Controls.Add(btnRemoverTelefone);
             gbTelefones.Controls.Add(btnAdicionarTelefone);
             gbTelefones.Controls.Add(listTelefone);
@@ -446,9 +433,11 @@
             // listTelefone
             // 
             listTelefone.FormattingEnabled = true;
-            listTelefone.Location = new Point(498, 12);
+            listTelefone.HorizontalScrollbar = true;
+            listTelefone.Location = new Point(427, 12);
             listTelefone.Name = "listTelefone";
-            listTelefone.Size = new Size(198, 169);
+            listTelefone.ScrollAlwaysVisible = true;
+            listTelefone.Size = new Size(269, 169);
             listTelefone.TabIndex = 9;
             listTelefone.SelectedIndexChanged += listTelefone_SelectedIndexChanged;
             // 
@@ -460,7 +449,6 @@
             cbTipo.Name = "cbTipo";
             cbTipo.Size = new Size(121, 23);
             cbTipo.TabIndex = 8;
-            cbTipo.Text = "4";
             // 
             // txtDDD
             // 
@@ -526,15 +514,20 @@
             lblNome.TabIndex = 2;
             lblNome.Text = "Nome";
             // 
-            // chkPrincipalTelefone
+            // lblNome2
             // 
-            chkPrincipalTelefone.AutoSize = true;
-            chkPrincipalTelefone.Location = new Point(343, 96);
-            chkPrincipalTelefone.Name = "chkPrincipalTelefone";
-            chkPrincipalTelefone.Size = new Size(72, 19);
-            chkPrincipalTelefone.TabIndex = 33;
-            chkPrincipalTelefone.Text = "Principal";
-            chkPrincipalTelefone.UseVisualStyleBackColor = true;
+            lblNome2.Location = new Point(0, 0);
+            lblNome2.Name = "lblNome2";
+            lblNome2.Size = new Size(100, 23);
+            lblNome2.TabIndex = 8;
+            // 
+            // DataNascimento
+            // 
+            DataNascimento.Location = new Point(358, 26);
+            DataNascimento.Mask = "00/00/0000";
+            DataNascimento.Name = "DataNascimento";
+            DataNascimento.Size = new Size(100, 23);
+            DataNascimento.TabIndex = 5;
             // 
             // Form2
             // 
@@ -577,7 +570,6 @@
         private TextBox textBox9;
         private TextBox textBox10;
         private TextBox textBox14;
-        private Label lblNome2;
         private Label lblDataNasc;
         private Label lblEmail;
         private Label lblCPF;
@@ -587,7 +579,6 @@
         private Button btnCancelar;
         private Label lblNumeroCasa;
         private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
-        private MaskedTextBox DataNascimento;
         private DataGridView dgvEnderecos;
         private DataGridView dgvTelefones;
         private GroupBox gbEndereco;
@@ -623,6 +614,7 @@
         private Button btnRemoverEndereco;
         private Button btnAdicionarEndereco;
         private CheckBox chkPrincipalEndereco;
-        private CheckBox chkPrincipalTelefone;
+        private Label lblNome2;
+        private MaskedTextBox DataNascimento;
     }
 }

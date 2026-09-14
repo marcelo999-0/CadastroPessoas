@@ -43,7 +43,7 @@ namespace CadastroPessoas.API.Controllers
         [HttpGet("{id}")]
         public ActionResult<Models.Pessoa> ObterPessoa(string id)
         {
-            if (!int.TryParse(id, out int cod ))
+            if (!int.TryParse(id, out int cod))
                 return BadRequest("O ID informado não é válido.");
 
             try
@@ -53,15 +53,15 @@ namespace CadastroPessoas.API.Controllers
                     return NotFound();
                 return Ok(pessoa);
             }
-            catch
+            catch (Exception ex)
             {
-               return BadRequest("Ocorreu um erro ao obter a pessoa.");
+                return BadRequest($"Ocorreu um erro ao obter a pessoa. {ex.Message}");
             }
 
 
 
         }
-        
+
         [HttpGet()]
         public ActionResult<List<Models.Pessoa>> ObterPessoas()
         {
@@ -70,14 +70,39 @@ namespace CadastroPessoas.API.Controllers
                 var pessoas = _pessoasCadastro.ObterPessoas();
                 return Ok(pessoas);
             }
-            catch (Exception ex) 
+            catch
             {
                 //return Ok(new List<Models.Pessoa>());
                 return StatusCode(500, "Ocorreu um erro ao obter as pessoas.");
 
             }
         }
+
+        [HttpPut("{id}")]
+        public ActionResult AtualizarPessoa(int id, Models.Pessoa pessoa)
+        {
+            try
+            {
+                pessoa.Id = id;
+                _pessoasCadastro.AtualizarPessoa(pessoa);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Ocorreu um erro ao atualizar pessoa");
+            }
+            
+        }
+        
     }
 }
+
+        
+    
+
+
+
+
+
 
    

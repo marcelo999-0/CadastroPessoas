@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CadastroPessoas.API.Service
@@ -87,14 +88,14 @@ namespace CadastroPessoas.API.Service
         private void CriarTelefone(Telefone telefone, int pessoaId)
         {
             const string query = @"INSERT INTO Telefones (PessoaId, DDD, Numero, Tipo) 
-                                   VALUES (@pessoaId, @DDD, @NumeroCasa, @Tipo)";
+                                   VALUES (@pessoaId, @DDD, @NumeroTelefone, @Tipo)";
             //using var connection = new SqlConnection(_connectionString);
             //using var command = new SqlCommand(query, connection);
             using var command = CreateCommand(query);
 
             command.Parameters.AddWithValue("@pessoaId", pessoaId);
             command.Parameters.AddWithValue("@DDD", telefone.DDD);
-            command.Parameters.AddWithValue("@NumeroCasa", telefone.Numero);
+            command.Parameters.AddWithValue("@NumeroTelefone", telefone.Numero);
             command.Parameters.AddWithValue("@Tipo", telefone.Tipo);
 
             //connection.Open();
@@ -104,8 +105,8 @@ namespace CadastroPessoas.API.Service
 
         private void CriarEndereco(Endereco endereco, int pessoaId)
         {
-            const string query = @"INSERT INTO Enderecos (PessoaId, NumeroCasa, Bairro, Logradouro, UF, CEP, Cidade) 
-                                   VALUES (@PessoaId, @NumeroCasa, @Bairro, @Logradouro, @UF, @CEP, @Cidade)";
+            const string query = @"INSERT INTO Enderecos (PessoaId, NumeroCasa, Bairro, Logradouro, UF, CEP, Cidade, isPrincipal) 
+                                   VALUES (@PessoaId, @NumeroCasa, @Bairro, @Logradouro, @UF, @CEP, @Cidade, @isPrincipal)";
 
             //using var connection = new SqlConnection(_connectionString);
             //using var command = new SqlCommand(query, connection);
@@ -119,6 +120,7 @@ namespace CadastroPessoas.API.Service
             command.Parameters.AddWithValue("@UF", endereco.UF);
             command.Parameters.AddWithValue("@CEP", endereco.CEP);
             command.Parameters.AddWithValue("@Cidade", endereco.Cidade);
+            command.Parameters.AddWithValue("@isPrincipal", endereco.isPrincipal);
             //connection.Open();
             command.ExecuteNonQuery();
         }
@@ -140,6 +142,7 @@ namespace CadastroPessoas.API.Service
 
             using var command = CreateCommand(query);
 
+            command.Parameters.AddWithValue("@Id", pessoa.Id);
             command.Parameters.AddWithValue("@Nome", pessoa.Nome);
             command.Parameters.AddWithValue("@CPF", pessoa.CPF);
             command.Parameters.AddWithValue("@DataNascimento", pessoa.DataNascimento);
@@ -158,13 +161,13 @@ namespace CadastroPessoas.API.Service
 
 
                     //connection.Open();
-                    int idPersona = Convert.ToInt32(command.ExecuteScalar());
+                    command.ExecuteNonQuery();
 
                     foreach (Endereco e in pessoa.Enderecos)
-                        CriarEndereco(e, idPersona);
+                        CriarEndereco(e, pessoa.Id);
 
                     foreach (Telefone t in pessoa.Telefones)
-                        CriarTelefone(t, idPersona);
+                        CriarTelefone(t, pessoa.Id);
 
                     Commit();
                 }
@@ -217,60 +220,70 @@ namespace CadastroPessoas.API.Service
                 using var command = CreateCommand(query);
                 command.Parameters.AddWithValue("@Id", idPessoa);
 
-                using var reader = command.ExecuteReader();
-                if (!reader.Read())
-                    return null;
+                Pessoa pessoa;
 
-                var pessoa = new Pessoa
-                { 
-                    Nome = reader["Nome"].ToString()!,
-                    CPF = reader["CPF"].ToString()!,
-                    DataNascimento = Convert.ToDateTime(reader["DataNascimento"]),
-                    Email = reader["Email"].ToString()!
-                };
-                pessoa.Id = Convert.ToInt32(reader["Id"]);
-                
-
-
-                const string queryTelefones = @"SELECT * FROM Telefones WHERE PessoaId = @Id";
-                using (var commandTelefones = CreateCommand(queryTelefones))
+                using (var reader = command.ExecuteReader()) 
                 {
-                    commandTelefones.Parameters.AddWithValue("@Id", idPessoa);
-                    using var readerTelefones = commandTelefones.ExecuteReader();
-                    while (readerTelefones.Read())
+
+
+                    if (!reader.Read())
+                        return null;
+
+                   pessoa = new Pessoa
                     {
-                        var telefone = new Telefone
+                        Nome = reader["Nome"].ToString()!,
+                        CPF = reader["CPF"].ToString()!,
+                        DataNascimento = Convert.ToDateTime(reader["DataNascimento"]),
+                        Email = reader["Email"].ToString()!
+                    };
+
+
+
+                    pessoa.Id = Convert.ToInt32(reader["Id"]);
+
+                }
+
+                    const string queryTelefones = @"SELECT * FROM Telefones WHERE PessoaId = @Id";
+                    using (var commandTelefones = CreateCommand(queryTelefones))
+                    {
+                        commandTelefones.Parameters.AddWithValue("@Id", idPessoa);
+                        using var readerTelefones = commandTelefones.ExecuteReader();
+                        while (readerTelefones.Read())
                         {
-                            DDD = readerTelefones["DDD"].ToString()!,
-                            Numero = readerTelefones["Numero"].ToString()!,
-                            Tipo = readerTelefones["Tipo"].ToString()!
-                        };
-                        
+                            var telefone = new Telefone
+                            {
+                                DDD = readerTelefones["DDD"].ToString()!,
+                                Numero = readerTelefones["Numero"].ToString()!,
+                                Tipo = readerTelefones["Tipo"].ToString()!
+                            };
+                            pessoa.Telefones.Add(telefone);
+                        }
                     }
-                }
 
 
-                const string queryEnderecos = @"SELECT * FROM Enderecos WHERE PessoaId = @Id";
-                using (var commandEnderecos = CreateCommand(queryEnderecos))
-                {
-                    commandEnderecos.Parameters.AddWithValue("@Id", idPessoa);
-                    using var readerEnderecos = commandEnderecos.ExecuteReader();
-                    while (readerEnderecos.Read())
+                    const string queryEnderecos = @"SELECT * FROM Enderecos WHERE PessoaId = @Id";
+                    using (var commandEnderecos = CreateCommand(queryEnderecos))
                     {
-                        var endereco = new Endereco
-                        { 
-                            NumeroCasa = readerEnderecos["NumeroCasa"].ToString()!,
-                            Bairro = readerEnderecos["Bairro"].ToString()!,
-                            Logradouro = readerEnderecos["Logradouro"].ToString()!,
-                            UF = readerEnderecos["UF"].ToString()!,
-                            CEP = readerEnderecos["CEP"].ToString()!,
-                            Cidade = readerEnderecos["Cidade"].ToString()!
-                        };
-                        pessoa.Enderecos.Add(endereco);
+                        commandEnderecos.Parameters.AddWithValue("@Id", idPessoa);
+                        using var readerEnderecos = commandEnderecos.ExecuteReader();
+                        while (readerEnderecos.Read())
+                        {
+                            var endereco = new Endereco
+                            {
+                                NumeroCasa = readerEnderecos["NumeroCasa"].ToString()!,
+                                Bairro = readerEnderecos["Bairro"].ToString()!,
+                                Logradouro = readerEnderecos["Logradouro"].ToString()!,
+                                UF = readerEnderecos["UF"].ToString()!,
+                                CEP = readerEnderecos["CEP"].ToString()!,
+                                Cidade = readerEnderecos["Cidade"].ToString()!,
+                                isPrincipal = Convert.ToBoolean(readerEnderecos["isPrincipal"])
+                            };
+                            pessoa.Enderecos.Add(endereco);
+                        }
                     }
-                }
 
-                return pessoa;
+                    return pessoa;
+                
             }
             catch
             {
@@ -323,7 +336,7 @@ namespace CadastroPessoas.API.Service
                         Logradouro = reader["Logradouro"].ToString()!,
                         UF = reader["UF"].ToString()!,
                         CEP = reader["CEP"].ToString()!,
-                        Cidade = reader["Cidade"].ToString()!
+                        Cidade = reader["Cidade"].ToString()!,
                     };
                     enderecos.Add(endereco);
                 }
